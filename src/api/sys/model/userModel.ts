@@ -6,6 +6,11 @@ export interface LoginParams {
   password: string;
 }
 
+export interface RegisterParams {
+  email: string;
+  password: string;
+}
+
 export interface RoleInfo {
   roleName: string;
   value: string;
@@ -18,6 +23,10 @@ export interface LoginResultModel {
   userId: string | number;
   token: string;
   role: RoleInfo;
+}
+
+export interface RegisterResultModel {
+  userId: string | number;
 }
 
 /**

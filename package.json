@@ -49,6 +49,7 @@
     "lodash-es": "^4.17.21",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
+    "npx": "^10.2.2",
     "path-to-regexp": "^6.2.0",
     "pinia": "^2.0.0-beta.5",
     "print-js": "^1.6.0",

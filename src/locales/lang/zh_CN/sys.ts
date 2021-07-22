@@ -79,9 +79,12 @@ export default {
     // notify
     loginSuccessTitle: '登录成功',
     loginSuccessDesc: '欢迎回来',
+    registerSuccessTitle: '注册成功',
+    registerSuccessDesc: '恭喜, 注册成功',
 
     // placeholder
     accountPlaceholder: '请输入账号',
+    emailPlaceholder: '请输入邮箱',
     passwordPlaceholder: '请输入密码',
     smsPlaceholder: '请输入验证码',
     mobilePlaceholder: '请输入手机号码',
@@ -93,6 +96,7 @@ export default {
     confirmPassword: '确认密码',
     email: '邮箱',
     smsCode: '短信验证码',
+    emailCode: '邮箱验证码',
     mobile: '手机号码',
   },
 };

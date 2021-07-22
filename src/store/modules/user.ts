@@ -1,13 +1,17 @@
 import type { UserInfo } from '/#/store';
-import type { ErrorMessageMode } from '/#/axios';
 import { defineStore } from 'pinia';
 import { store } from '/@/store';
 import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
-import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
+import {
+  GetUserInfoModel,
+  LoginParams,
+  RegisterParams,
+  RegisterResultModel,
+} from '/@/api/sys/model/userModel';
+import { doLogout, getUserInfo, loginApi, registerApi } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -70,18 +74,21 @@ export const useUserStore = defineStore({
       this.roleList = [];
       this.sessionTimeout = false;
     },
+    async register(params: RegisterParams): Promise<RegisterResultModel | null> {
+      const data = await registerApi(params);
+      return data;
+    },
     /**
      * @description: login
      */
     async login(
       params: LoginParams & {
         goHome?: boolean;
-        mode?: ErrorMessageMode;
       }
     ): Promise<GetUserInfoModel | null> {
       try {
-        const { goHome = true, mode, ...loginParams } = params;
-        const data = await loginApi(loginParams, mode);
+        const { goHome = true, ...loginParams } = params;
+        const data = await loginApi(loginParams);
         const { token } = data;
 
         // save token
@@ -89,10 +96,11 @@ export const useUserStore = defineStore({
         // get user info
         const userInfo = await this.getUserInfoAction();
 
-        const sessionTimeout = this.sessionTimeout;
-        if (sessionTimeout) {
-          this.setSessionTimeout(false);
-        } else if (goHome) {
+        // const sessionTimeout = this.sessionTimeout;
+        // if (sessionTimeout) {
+        //   this.setSessionTimeout(false);
+        // } else
+        if (goHome) {
           const permissionStore = usePermissionStore();
           if (!permissionStore.isDynamicAddedRoute) {
             const routes = await permissionStore.buildRoutesAction();
